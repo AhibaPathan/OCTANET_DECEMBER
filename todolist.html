@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+      background-color: rgb(255, 255, 107);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: aquamarine;
+    }
+
+    th, td {
+      padding: 15px;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+
+    .task {
+      display: flex;
+      align-items: flex-start;
+      
+    }
+
+    .task input[type="checkbox"] {
+      margin-right: 10px;
+    }
+
+    .congratulations {
+      color: green;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+  <title>To-Do List</title>
+</head>
+<body>
+
+  <h1>To-Do List</h1>
+
+  <table>
+    <tr>
+      <th colspan="2"><b>Must Do</b></th>
+      <th colspan="2"><b>Should Do</b></th>
+    </tr>
+    <tr>
+      <td colspan="2" id="must-do"></td>
+      <td colspan="2" id="should-do"></td>
+    </tr>
+    <tr>
+      <th colspan="2"><b>Could Do</b></th>
+      <th colspan="2"><b>If I Have Time</b></th>
+    </tr>
+    <tr>
+      <td colspan="2" id="could-do"></td>
+      <td colspan="2" id="if-i-have-time"></td>
+    </tr>
+  </table>
+
+  <p class="congratulations" id="congrats-message"></p>
+
+  <script>
+    const sections = ['must-do', 'should-do', 'could-do', 'if-i-have-time'];
+    const tasks = {};
+
+    // Initialize tasks with empty arrays
+    sections.forEach(section => {
+      tasks[section] = [];
+    });
+
+    // Populate tasks (you can customize these)
+    tasks['must-do'] = ["🌟 Wake up early", "🏋️ Exercise for 30 minutes", "📚 Read a book"];
+    tasks['should-do'] = ["🥗 Eat a healthy lunch", "💻 Work on a project", "🚶 Take a short break"];
+    tasks['could-do'] = ["🎨 Try a new hobby", "🍲 Cook a new recipe", "🎧 Listen to a podcast"];
+    tasks['if-i-have-time'] = ["🌳 Take a walk in the park", "🧘 Practice mindfulness", "📝 Journaling"];
+
+    // Display tasks in the table
+    sections.forEach(section => {
+      const taskList = document.getElementById(section);
+      taskList.innerHTML = tasks[section].map(task => `<div class="task"><input type="checkbox"><span>${task}</span></div>`).join('');
+    });
+
+    // Check for completion
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', checkCompletion);
+    });
+
+    function checkCompletion() {
+      const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+
+      const congratsMessage = document.getElementById('congrats-message');
+      if (allChecked) {
+        congratsMessage.textContent = 'Congratulations! You have completed all tasks.';
+      } else {
+        congratsMessage.textContent = '';
+      }
+    }
+  </script>
+</body>
+</html>
